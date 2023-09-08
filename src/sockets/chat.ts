@@ -8,6 +8,8 @@ export default (io: Server) => {
                 timestamp: new Date().toISOString(),
             };
             console.log("message: ", data);
+
+            socket.broadcast.emit("message", data);
         });
 
         socket.on("disconnect", () => {
