@@ -16,16 +16,12 @@ const io = new Server(server, {
 
 initializeSockets(io);
 
-io.on("connection", () => {
+io.on("connection", (socket) => {
     console.log("User Connected");
-});
 
-io.use((socket, next) => {
-    socket.on("error", (error) => {
-        console.error("Socket error:", error);
+    socket.on("disconnect", () => {
+        console.log("user disconnected");
     });
-
-    next();
 });
 
 connectDB();

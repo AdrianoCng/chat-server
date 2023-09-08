@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 export interface MessageSchema {
     text: string;
-    date?: string;
+    timestamp?: string;
 }
 
 const messageSchema = new Schema<MessageSchema>({
@@ -10,7 +10,7 @@ const messageSchema = new Schema<MessageSchema>({
         type: String,
         required: true,
     },
-    date: Date,
+    timestamp: Date,
 });
 
 export default mongoose.model("Message", messageSchema);
