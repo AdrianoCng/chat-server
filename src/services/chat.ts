@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import Message from "../models/Message";
-import errorHandler from "../middlewares/errorHandler";
+import Message from "@models/Message";
+import errorHandler from "@middlewares/errorHandler";
 
 export default (io: Server) => {
     io.on("connection", (socket) => {
