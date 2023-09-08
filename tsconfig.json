@@ -34,6 +34,7 @@
             "@models/*": ["models/*"],
             "@routes/*": ["routes/*"],
             "@services/*": ["services/*"],
+            "@configs/*": ["configs/*"],
             "@middlewares/*": ["middlewares/*"]
         },
         // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */

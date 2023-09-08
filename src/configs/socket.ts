@@ -1,10 +1,8 @@
-import express from "express";
 import { Server } from "socket.io";
 import http from "http";
-import initializeSockets from "@services/index";
-import connectDB from "./db";
 
-const app = express();
+import initializeSockets from "@services/index";
+import app from "app";
 
 const server = http.createServer(app);
 
@@ -23,7 +21,5 @@ io.on("connection", (socket) => {
         console.log("user disconnected");
     });
 });
-
-connectDB();
 
 export default server;
