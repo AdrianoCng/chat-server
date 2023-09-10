@@ -1,7 +1,13 @@
 import { body } from "express-validator";
 
 export default [
-    body("email").exists().not().isEmpty().withMessage("email is required").isEmail().trim(),
+    body("username")
+        .exists()
+        .not()
+        .isEmpty()
+        .withMessage("username is required")
+        .isString()
+        .escape(),
     body("password")
         .not()
         .isEmpty()

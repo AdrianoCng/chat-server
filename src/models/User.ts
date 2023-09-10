@@ -2,9 +2,9 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 export interface UserSchema extends Document {
-    email: string;
+    username: string;
     password: string;
-    nickname: string;
+    connected: boolean;
 }
 
 export interface UserMethods {
@@ -12,7 +12,7 @@ export interface UserMethods {
 }
 
 const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
-    email: {
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -24,20 +24,27 @@ const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
         minlength: 8,
         maxlength: 128,
     },
-    nickname: String,
+    connected: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 userSchema.pre("save", function encryptPassword(next) {
-    if (!this.isModified(this.password) && !this.isNew) {
+    if (!this.isModified("password") && !this.isNew) {
         return next();
     }
 
-    return bcrypt.hash(this.password, bcrypt.genSaltSync(10), (err, hash) => {
+    const salt = bcrypt.genSaltSync(10);
+
+    return bcrypt.hash(this.password, salt, (err, hash) => {
         if (err) {
             return next(err);
         }
 
         this.password = hash;
+
+        return next();
     });
 });
 
