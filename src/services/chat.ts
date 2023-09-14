@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 import Message from "@models/Message";
 import socketTryCatch from "@middlewares/socketTryCatch";
-import User from "@models/User";
 
 export default (io: Server) => {
     io.on("connection", (socket) => {

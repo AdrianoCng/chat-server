@@ -23,6 +23,49 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     res.status(StatusCodes.CREATED).json({ username, userId: user.id });
 };
 
+const login = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user?._id) {
+        next(new CustomError(StatusCodes.BAD_REQUEST));
+        return;
+    }
+
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+        next(new CustomError(StatusCodes.NOT_FOUND));
+        return;
+    }
+
+    user.connected = true;
+    user.save();
+
+    return res.send("logged in");
+};
+
+const logout = async (req: Request, res: Response, next: NextFunction) => {
+    let userId = req.user?._id || "";
+
+    if (!userId) {
+        next(new CustomError(StatusCodes.BAD_REQUEST));
+        return;
+    }
+
+    req.logOut(async (err) => {
+        if (err) {
+            next(err);
+            return;
+        }
+
+        await User.findByIdAndUpdate(userId, {
+            $set: { connected: false },
+        });
+
+        res.send("logout");
+    });
+};
+
 export default {
     register,
+    login,
+    logout,
 };
