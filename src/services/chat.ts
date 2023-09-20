@@ -1,26 +1,30 @@
 import { Server } from 'socket.io';
-import Message from '@models/Message';
+import Message, { MessageSchema } from '@models/Message';
 import socketTryCatch from '@middlewares/socketTryCatch';
+import { CHAT_EVENT } from 'types/custom';
 
 export default (io: Server) => {
   io.on('connection', socket => {
-    io.emit('chat:history');
+    const user = socket.request.user;
+
+    io.emit(CHAT_EVENT.HISTORY);
 
     socket.on(
-      'chat:message',
+      CHAT_EVENT.MESSAGE,
       socketTryCatch(socket, async (text: string) => {
         if (typeof text !== 'string') {
           throw 'text must be a string';
         }
 
-        const data = {
+        const data: MessageSchema = {
           text,
           timestamp: new Date().toISOString(),
+          sender: user._id,
         };
 
         await Message.create(data);
 
-        socket.broadcast.emit('message', data);
+        socket.broadcast.emit(CHAT_EVENT.MESSAGE, data);
       }),
     );
   });

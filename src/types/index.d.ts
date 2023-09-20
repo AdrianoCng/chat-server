@@ -10,3 +10,10 @@ declare global {
       > {}
   }
 }
+
+declare module 'node:http' {
+  interface IncomingMessage {
+    user: Express.User;
+    session: any;
+  }
+}

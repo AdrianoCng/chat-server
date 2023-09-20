@@ -26,10 +26,10 @@ io.use(wrap(passport.session()));
 io.use(authenticateSocket);
 
 io.on('connection', socket => {
-  console.log(`User ${socket.id} connected`);
+  console.log(`${socket.request.user.username} connected`);
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log(`${socket.request.user.username} disconnected`);
   });
 });
 
