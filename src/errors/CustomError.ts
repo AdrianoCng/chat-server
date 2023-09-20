@@ -1,22 +1,22 @@
-import { getReasonPhrase } from "http-status-codes";
-import AbstractError from "./AbstractError";
+import { getReasonPhrase } from 'http-status-codes';
+import AbstractError from './AbstractError';
 
 export default class CustomError extends AbstractError {
-    public readonly statusCode: number;
+  public readonly statusCode: number;
 
-    constructor(statusCode: number, message = getReasonPhrase(statusCode)) {
-        super(message);
+  constructor(statusCode: number, message = getReasonPhrase(statusCode)) {
+    super(message);
 
-        Object.setPrototypeOf(this, new.target.prototype);
-        Error.captureStackTrace(this);
+    Object.setPrototypeOf(this, new.target.prototype);
+    Error.captureStackTrace(this);
 
-        this.statusCode = statusCode;
-    }
+    this.statusCode = statusCode;
+  }
 
-    formatErrors() {
-        return {
-            statusCode: this.statusCode,
-            errors: [{ msg: this.message }],
-        };
-    }
+  formatErrors() {
+    return {
+      statusCode: this.statusCode,
+      errors: [{ msg: this.message }],
+    };
+  }
 }

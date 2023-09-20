@@ -1,21 +1,25 @@
-import { Router } from "express";
+import { Router } from 'express';
 
-import passport from "passport";
+import passport from 'passport';
 
-import validate from "@middlewares/validate";
-import userValidations from "@validations/userValidations";
-import authControllers from "@controllers/authControllers";
-import tryCatch from "@middlewares/tryCatch";
+import validate from '@middlewares/validate';
+import userValidations from '@validations/userValidations';
+import authControllers from '@controllers/authControllers';
+import tryCatch from '@middlewares/tryCatch';
 
 const authRouter = Router();
 
-authRouter.post("/register", validate(userValidations), tryCatch(authControllers.register));
 authRouter.post(
-    "/login",
-    validate(userValidations),
-    passport.authenticate("local"),
-    tryCatch(authControllers.login)
+  '/register',
+  validate(userValidations),
+  tryCatch(authControllers.register),
 );
-authRouter.post("/logout", tryCatch(authControllers.logout));
+authRouter.post(
+  '/login',
+  validate(userValidations),
+  passport.authenticate('local'),
+  tryCatch(authControllers.login),
+);
+authRouter.post('/logout', tryCatch(authControllers.logout));
 
 export default authRouter;
