@@ -46,7 +46,7 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
     let userId = req.user?._id || "";
 
     if (!userId) {
-        next(new CustomError(StatusCodes.BAD_REQUEST));
+        next(new CustomError(StatusCodes.BAD_REQUEST, "No user ID found"));
         return;
     }
 
