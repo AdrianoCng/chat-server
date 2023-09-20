@@ -12,7 +12,10 @@ const messageSchema = new Schema<MessageSchema>({
     required: true,
   },
   timestamp: Date,
-  sender: {},
+  sender: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
 });
 
 export default mongoose.model('Message', messageSchema);
