@@ -6,7 +6,7 @@ function initializePassportConfig() {
   passport.use(
     new Strategy(async function (username, password, done) {
       try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username }).select('+password');
 
         if (!user) {
           return done(null, false, { message: "User don't exists" });

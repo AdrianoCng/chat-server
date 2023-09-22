@@ -2,13 +2,18 @@ import { Server } from 'socket.io';
 import Message, { MessageSchema } from '@models/Message';
 import socketTryCatch from '@middlewares/socketTryCatch';
 import { CHAT_EVENT } from 'types/custom';
+import PublicChat from '@models/PublicChat';
 
 export default (io: Server) => {
-  io.on('connection', socket => {
+  let publicChat = new PublicChat();
+
+  io.on('connection', async socket => {
     const user = socket.request.user;
 
-    io.emit(CHAT_EVENT.HISTORY);
+    // History Event
+    socket.emit(CHAT_EVENT.HISTORY, await publicChat.getPopulatedDoc());
 
+    // Message Event
     socket.on(
       CHAT_EVENT.MESSAGE,
       socketTryCatch(socket, async (text: string) => {
@@ -22,9 +27,14 @@ export default (io: Server) => {
           sender: user._id,
         };
 
-        await Message.create(data);
+        const message = await Message.create(data);
 
-        socket.broadcast.emit(CHAT_EVENT.MESSAGE, data);
+        publicChat.saveMessage(message.id);
+
+        socket.broadcast.emit(
+          CHAT_EVENT.MESSAGE,
+          await message.populate('sender'),
+        );
       }),
     );
   });

@@ -23,6 +23,7 @@ const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
     required: true,
     minlength: 8,
     maxlength: 128,
+    select: false,
   },
   connected: {
     type: Boolean,
