@@ -2,7 +2,7 @@ import User from '@models/User';
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 
-function initializePassportConfig() {
+function configPassport() {
   passport.use(
     new Strategy(async function (username, password, done) {
       try {
@@ -39,4 +39,4 @@ function initializePassportConfig() {
   });
 }
 
-export default initializePassportConfig;
+export default configPassport;

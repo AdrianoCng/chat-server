@@ -24,7 +24,9 @@
     "mongoose": "^7.5.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "socketio-wildcard": "^2.0.0",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -33,6 +35,7 @@
     "@types/morgan": "^1.9.5",
     "@types/passport": "^1.0.12",
     "@types/passport-local": "^1.0.35",
+    "@types/socketio-wildcard": "^2.0.4",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",

@@ -7,7 +7,7 @@ import router from '@routes/index';
 import errorHandler from '@middlewares/errorHandler';
 import session from 'express-session';
 import passport from 'passport';
-import initializePassportConfig from '@configs/passport';
+import configPassport from '@configs/passport';
 
 const app = express();
 export const sessionMiddleware = session({
@@ -34,6 +34,6 @@ app.get('/*', (req, res) => {
 
 app.use(errorHandler);
 
-initializePassportConfig();
+configPassport();
 
 export default app;
