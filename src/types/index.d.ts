@@ -17,7 +17,3 @@ declare module 'node:http' {
     session: any;
   }
 }
-
-declare module 'monitor.io' {
-  interface monitorio {}
-}
