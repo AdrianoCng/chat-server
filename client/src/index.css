@@ -7,9 +7,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  background-color: #f9f9f9;
+
+  --primary: #795989;
+  --primary-rgb: 121, 89, 137;
+  --text: #494949;
+  --text-rgb: 73, 73, 73;
 }
 
-* {
-  margin: 0;
-  box-sizing: border-box;
+html {
+  font-size: 62.5%;
 }
