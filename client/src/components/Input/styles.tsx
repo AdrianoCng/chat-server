@@ -14,12 +14,12 @@ export const InputStyledComponent = styled.input<{ $fullWidth?: boolean }>`
     `}
 
   &:hover:not(:disabled) {
-    border-color: var(--primary);
+    border-color: rgba(var(--primary-rgb), 0.5);
   }
 
   &:focus:not(:disabled) {
     outline: none;
-    border-color: var(--primary);
+    border-color: rgba(var(--primary-rgb), 0.5);
     box-shadow: 0 0 5px rgba(var(--primary-rgb), 0.5);
   }
 

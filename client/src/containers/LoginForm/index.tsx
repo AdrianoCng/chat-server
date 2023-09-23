@@ -14,12 +14,12 @@ export default function LoginForm() {
     <Styled.Container>
       <Styled.Form>
         <Styled.FormGroup>
-          <Label htmlFor="username">Username:</Label>
+          <Label htmlFor="username">Username</Label>
           <Input id="username" type="text" ref={usernameRef} />
         </Styled.FormGroup>
 
         <Styled.FormGroup>
-          <Label htmlFor="password">Password:</Label>
+          <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" ref={passwordRef} />
         </Styled.FormGroup>
 
