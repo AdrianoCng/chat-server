@@ -12,7 +12,6 @@ export const Container = styled.div`
 export const Form = styled.form`
   background: #fff;
   display: flex;
-  justify-content: center;
   align-items: center;
   padding: 20px;
   flex-direction: column;
@@ -26,14 +25,12 @@ export const FormGroup = styled.div`
   flex-direction: column;
 `;
 
-export const FormLink = styled.a`
+export const FormSpan = styled.span`
+  font-size: 1.4rem;
   color: var(--primary);
-  text-decoration: underline;
-  font-size: 1.6rem;
-  cursor: pointer;
-  transition: all 100ms ease;
+`;
 
-  &:hover {
-    font-weight: bold;
-  }
+export const FormLink = styled.a`
+  color: inherit;
+  font-weight: 500;
 `;

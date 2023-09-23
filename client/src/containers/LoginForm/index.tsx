@@ -23,9 +23,14 @@ export default function LoginForm() {
           <Input id="password" type="password" ref={passwordRef} />
         </Styled.FormGroup>
 
-        <Styled.FormLink href="#">Sign up</Styled.FormLink>
+        <Styled.FormSpan>
+          Don't have an account?{' '}
+          <Styled.FormLink href="#">Sign up</Styled.FormLink>
+        </Styled.FormSpan>
 
-        <Button>Log in</Button>
+        <Button type="submit" $variant="primary">
+          Log in
+        </Button>
       </Styled.Form>
     </Styled.Container>
   );

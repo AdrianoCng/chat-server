@@ -1,5 +1,9 @@
 import * as Styled from './styles';
 
-export default function Button({ ...props }: React.ComponentProps<'button'>) {
-  return <Styled.Button {...props} />;
+interface Props extends React.ComponentProps<'button'> {
+  $variant?: 'primary' | 'secondary';
+}
+
+export default function Button({ $variant = 'primary', ...props }: Props) {
+  return <Styled.Button {...props} $variant={$variant} />;
 }
