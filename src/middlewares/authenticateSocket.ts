@@ -1,4 +1,4 @@
-import CustomError from 'errors/CustomError';
+import CustomError from '@errors/CustomError';
 import { StatusCodes } from 'http-status-codes';
 import { ExtendedError } from 'socket.io/dist/namespace';
 

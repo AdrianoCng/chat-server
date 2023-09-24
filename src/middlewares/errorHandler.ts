@@ -1,6 +1,4 @@
-import AbstractError from 'errors/AbstractError';
-import CustomError from 'errors/CustomError';
-import ValidateError from 'errors/ValidateError';
+import AbstractError from '@errors/AbstractError';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes, ReasonPhrases } from 'http-status-codes';
 

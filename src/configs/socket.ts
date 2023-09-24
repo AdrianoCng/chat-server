@@ -4,7 +4,7 @@ import passport from 'passport';
 import wildcard from 'socketio-wildcard';
 
 import initializeIo from '@services/index';
-import app, { sessionMiddleware } from 'app';
+import app, { sessionMiddleware } from '../app';
 import authenticateSocket from '@middlewares/authenticateSocket';
 
 const server = http.createServer(app);

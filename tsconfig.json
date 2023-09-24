@@ -31,16 +31,17 @@
     "module": "commonjs" /* Specify what module code is generated. */,
     "rootDir": "./" /* Specify the root folder within your source files. */,
     // "moduleResolution": "node10",
-    "baseUrl": "./src/" /* Specify the base directory to resolve non-relative module names. */,
+    "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "@controllers/*": ["controllers/*"],
-      "@models/*": ["models/*"],
-      "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
-      "@configs/*": ["configs/*"],
-      "@validations/*": ["validations/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@types/*": ["types/*"]
+      "@controllers/*": ["src/controllers/*"],
+      "@models/*": ["src/models/*"],
+      "@routes/*": ["src/routes/*"],
+      "@services/*": ["src/services/*"],
+      "@configs/*": ["src/configs/*"],
+      "@validations/*": ["src/validations/*"],
+      "@middlewares/*": ["src/middlewares/*"],
+      "@errors/*": ["src/errors/*"],
+      "@types/*": ["src/types/*"]
     },
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     "typeRoots": [] /* Specify multiple folders that act like './node_modules/@types'. */,

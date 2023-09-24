@@ -1,8 +1,8 @@
 import { Server } from 'socket.io';
 import Message, { MessageSchema } from '@models/Message';
 import socketTryCatch from '@middlewares/socketTryCatch';
-import { CHAT_EVENT } from 'types/custom';
 import PublicChat from '@models/PublicChat';
+import { CHAT_EVENT } from '../types/custom';
 
 export default (io: Server) => {
   let publicChat = new PublicChat();

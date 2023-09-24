@@ -1,7 +1,7 @@
 import User from '@models/User';
-import CustomError from 'errors/CustomError';
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
+import CustomError from 'src/errors/CustomError';
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
