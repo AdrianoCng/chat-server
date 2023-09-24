@@ -5,6 +5,8 @@ import * as Styled from './styles';
 import Button from '@components/Button';
 import Input from '@components/Input';
 import Label from '@components/Label';
+import Form from '@/components/Form';
+import FormGroup from '@/components/FormGroup';
 
 export default function LoginForm() {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -12,16 +14,16 @@ export default function LoginForm() {
 
   return (
     <Styled.Container>
-      <Styled.Form>
-        <Styled.FormGroup>
+      <Form>
+        <FormGroup>
           <Label htmlFor="username">Username</Label>
           <Input id="username" type="text" ref={usernameRef} />
-        </Styled.FormGroup>
+        </FormGroup>
 
-        <Styled.FormGroup>
+        <FormGroup>
           <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" ref={passwordRef} />
-        </Styled.FormGroup>
+        </FormGroup>
 
         <Styled.FormSpan>
           Don't have an account?{' '}
@@ -31,7 +33,7 @@ export default function LoginForm() {
         <Button type="submit" $variant="primary">
           Log in
         </Button>
-      </Styled.Form>
+      </Form>
     </Styled.Container>
   );
 }
