@@ -2,69 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo</title>
+    <!-- Resets css -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+
+    <title>Vite + React + TS</title>
+    <script type="module" crossorigin src="/assets/index-2c33da67.js"></script>
+    <link rel="stylesheet" href="/assets/index-474f2277.css">
   </head>
   <body>
-    <form id="form">
-      <input id="input_text" type="text" />
-    </form>
-
-    <button id="login-button">Log in</button>
-    <button id="logout-button">Log out</button>
-
-    <script
-      src="https://cdn.socket.io/4.6.0/socket.io.min.js"
-      integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      var socket = io('http://localhost:5000');
-
-      const form = document.getElementById('form');
-      const inputText = document.getElementById('input_text');
-      const loginButton = document.getElementById('login-button');
-      const logoutButton = document.getElementById('logout-button');
-
-      loginButton.addEventListener('click', login);
-      logoutButton.addEventListener('click', logout);
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-
-        if (!inputText.value) return;
-
-        socket.emit('chat:message', inputText.value);
-        inputText.value = '';
-      });
-
-      function login() {
-        fetch('http://localhost:5000/api/v1/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', // Set the content type to JSON
-          },
-          body: JSON.stringify({
-            username: 'Haind90',
-            password: '1234Abcd!',
-          }),
-        }).then(() => {
-          if (socket.connected) {
-            socket.disconnect();
-          }
-
-          socket.open();
-        });
-      }
-
-      function logout() {
-        fetch('http://localhost:5000/api/v1/auth/logout', {
-          method: 'POST',
-        }).then(() => {
-          socket.close();
-        });
-      }
-
-      console.log('client setup');
-    </script>
+    <div id="root"></div>
+    
   </body>
 </html>

@@ -13,7 +13,7 @@ import redisStore from '@configs/redis';
 const app = express();
 
 export const sessionMiddleware = session({
-  store: redisStore,
+  // store: redisStore,
   secret: process.env.SESSION_SECRET ?? '',
   resave: false,
   saveUninitialized: false,
