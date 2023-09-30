@@ -16,6 +16,7 @@ authRouter.post(
 );
 authRouter.post(
   '/login',
+  validate(userValidations),
   passport.authenticate('local'),
   tryCatch(authControllers.login),
 );
