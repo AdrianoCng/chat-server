@@ -11,7 +11,13 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? undefined
+        : 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Cookie'],
+    credentials: true,
   },
 });
 

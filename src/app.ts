@@ -20,13 +20,14 @@ export const sessionMiddleware = session({
   cookie: {
     secure: false,
     maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
   },
 });
 
 app.use(express.static(path.resolve(__dirname, '../public')));
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 app.use(helmet());
 
 app.use(sessionMiddleware);
