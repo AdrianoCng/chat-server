@@ -39,7 +39,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   user.connected = true;
   user.save();
 
-  return res.send('logged in');
+  res.json(user);
 };
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
@@ -64,8 +64,13 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
+const check = (req: Request, res: Response) => {
+  res.json({ authenticated: req.isAuthenticated() });
+};
+
 export default {
   register,
   login,
   logout,
+  check,
 };

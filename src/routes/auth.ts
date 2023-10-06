@@ -6,6 +6,7 @@ import validate from '@middlewares/validate';
 import userValidations from '@validations/userValidations';
 import authControllers from '@controllers/authControllers';
 import tryCatch from '@middlewares/tryCatch';
+import protectRoute from '@middlewares/authenticateRoute';
 
 const authRouter = Router();
 
@@ -21,5 +22,7 @@ authRouter.post(
   tryCatch(authControllers.login),
 );
 authRouter.post('/logout', tryCatch(authControllers.logout));
+
+authRouter.get('/check', tryCatch(authControllers.check));
 
 export default authRouter;
