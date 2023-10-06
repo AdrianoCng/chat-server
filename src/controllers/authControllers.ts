@@ -64,8 +64,13 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-const check = (req: Request, res: Response) => {
-  res.json({ authenticated: req.isAuthenticated() });
+const check = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.isAuthenticated()) {
+    next(new CustomError(StatusCodes.UNAUTHORIZED));
+    return;
+  }
+
+  res.json(req.user);
 };
 
 export default {
