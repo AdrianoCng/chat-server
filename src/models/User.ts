@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 export interface UserSchema extends Document {
   username: string;
   password: string;
-  connected: boolean;
 }
 
 export interface UserMethods {
@@ -24,10 +23,6 @@ const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
     minlength: 8,
     maxlength: 128,
     select: false,
-  },
-  connected: {
-    type: Boolean,
-    default: false,
   },
 });
 
