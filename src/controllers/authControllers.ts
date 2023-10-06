@@ -36,8 +36,6 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
-  user.save();
-
   res.json(user);
 };
 
