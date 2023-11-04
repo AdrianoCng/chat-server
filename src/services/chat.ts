@@ -34,5 +34,16 @@ export default (io: Server) => {
         io.emit(CHAT_EVENT.MESSAGE, await message.populate('sender'));
       }),
     );
+
+    // Typing Event
+    socket.on(
+      CHAT_EVENT.PUBLIC_TYPING,
+      socketTryCatch(
+        socket,
+        async (data: { username: string; isTyping: boolean }) => {
+          io.emit(CHAT_EVENT.PUBLIC_TYPING, data);
+        },
+      ),
+    );
   });
 };
