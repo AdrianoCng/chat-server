@@ -31,10 +31,7 @@ export default (io: Server) => {
 
         publicChat.saveMessage(message.id);
 
-        socket.broadcast.emit(
-          CHAT_EVENT.MESSAGE,
-          await message.populate('sender'),
-        );
+        io.emit(CHAT_EVENT.MESSAGE, await message.populate('sender'));
       }),
     );
   });
