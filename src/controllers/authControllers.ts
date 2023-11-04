@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import CustomError from 'src/errors/CustomError';
 
+/** POST /auth/register */
 const register = async (req: Request, res: Response, next: NextFunction) => {
   const { username, password } = req.body;
 
@@ -23,6 +24,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
   res.status(StatusCodes.CREATED).json({ username, userId: user.id });
 };
 
+/** POST /auth/login */
 const login = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user?._id) {
     next(new CustomError(StatusCodes.BAD_REQUEST));
@@ -39,6 +41,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   res.json(user);
 };
 
+/** POST /auth/logout */
 const logout = async (req: Request, res: Response, next: NextFunction) => {
   let userId = req.user?._id || '';
 
@@ -53,14 +56,11 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
       return;
     }
 
-    await User.findByIdAndUpdate(userId, {
-      $set: { connected: false },
-    });
-
-    res.send('logout');
+    res.status(StatusCodes.NO_CONTENT);
   });
 };
 
+/** GET /auth/check */
 const check = (req: Request, res: Response, next: NextFunction) => {
   if (!req.isAuthenticated()) {
     next(new CustomError(StatusCodes.UNAUTHORIZED));
