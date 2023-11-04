@@ -41,7 +41,7 @@ export default (io: Server) => {
       socketTryCatch(
         socket,
         async (data: { username: string; isTyping: boolean }) => {
-          io.emit(CHAT_EVENT.PUBLIC_TYPING, data);
+          socket.broadcast.emit(CHAT_EVENT.PUBLIC_TYPING, data);
         },
       ),
     );
