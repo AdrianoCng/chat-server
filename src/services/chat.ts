@@ -3,15 +3,26 @@ import Message, { MessageSchema } from '@models/Message';
 import socketTryCatch from '@middlewares/socketTryCatch';
 import PublicChat from '@models/PublicChat';
 import { CHAT_EVENT } from '../types/custom';
+import StatusManager from './StatusManager';
 
 export default (io: Server) => {
-  let publicChat = new PublicChat();
+  const publicChat = new PublicChat();
+  const statusManager = new StatusManager();
 
   io.on('connection', async socket => {
     const user = socket.request.user;
+    const userId = user._id;
+    const username = user.username;
 
     // History Event
     socket.emit(CHAT_EVENT.HISTORY, await publicChat.getPopulatedDoc());
+
+    // Connected Users List Event
+    statusManager.setStatus(userId, { username, status: 'online' });
+    socket.emit(
+      CHAT_EVENT.CONNECTED_USERS_LIST,
+      statusManager.getUsersStatus(),
+    );
 
     // Message Event
     socket.on(
@@ -44,6 +55,18 @@ export default (io: Server) => {
           socket.broadcast.emit(CHAT_EVENT.PUBLIC_TYPING, data);
         },
       ),
+    );
+
+    socket.on(
+      'disconnect',
+      socketTryCatch(socket, async () => {
+        statusManager.removeStatus(user._id);
+
+        io.emit(
+          CHAT_EVENT.CONNECTED_USERS_LIST,
+          statusManager.getUsersStatus(),
+        );
+      }),
     );
   });
 };
