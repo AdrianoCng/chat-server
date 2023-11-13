@@ -1,9 +1,12 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 
+export type Status = 'online' | 'away' | 'offline';
+
 export interface UserSchema extends Document {
   username: string;
   password: string;
+  status: Status;
 }
 
 export interface UserMethods {
@@ -23,6 +26,10 @@ const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
     minlength: 8,
     maxlength: 128,
     select: false,
+  },
+  status: {
+    type: String,
+    default: 'offline',
   },
 });
 

@@ -1,38 +1,28 @@
+import User, { Status } from '@models/User';
 import { ObjectId } from 'mongoose';
 
-type Status = 'online' | 'away';
-
-interface MapValue {
-  username: string;
-  status: Status;
-}
-
 export default class StatusManager {
-  private statusMap: Map<ObjectId, MapValue>;
+  private userId: ObjectId;
 
-  constructor() {
-    this.statusMap = new Map();
+  constructor(userId: ObjectId) {
+    this.userId = userId;
   }
 
-  setStatus(userId: ObjectId, status: MapValue) {
-    this.statusMap.set(userId, status);
+  async setStatus(status: Status) {
+    try {
+      await User.findByIdAndUpdate(this.userId, { status });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  getStatus(userId: ObjectId) {
-    return this.statusMap.get(userId);
-  }
+  async getStatus() {
+    try {
+      const user = await User.findById(this.userId);
 
-  removeStatus(userId: ObjectId) {
-    this.statusMap.delete(userId);
-  }
-
-  getUsersStatus() {
-    const users: { userId: ObjectId; username: string; status: Status }[] = [];
-
-    this.statusMap.forEach((status, userId) => {
-      users.push({ userId, ...status });
-    });
-
-    return users;
+      return user?.status;
+    } catch (error) {
+      throw error;
+    }
   }
 }

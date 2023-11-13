@@ -4,30 +4,34 @@ import socketTryCatch from '@middlewares/socketTryCatch';
 import PublicChat from '@models/PublicChat';
 import { CHAT_EVENT } from '../types/custom';
 import StatusManager from './StatusManager';
+import User, { Status } from '@models/User';
 
 export default (io: Server) => {
   const publicChat = new PublicChat();
-  const statusManager = new StatusManager();
 
-  io.on('connection', async socket => {
-    const user = socket.request.user;
-    const userId = user._id;
-    const username = user.username;
+  io.on(
+    'connection',
+    socketTryCatch(async socket => {
+      const user = socket.request.user;
+      const userId = user._id;
+      const statusManager = new StatusManager(userId);
 
-    // History Event
-    socket.emit(CHAT_EVENT.HISTORY, await publicChat.getPopulatedDoc());
+      await statusManager.setStatus('online');
 
-    // Connected Users List Event
-    statusManager.setStatus(userId, { username, status: 'online' });
-    socket.emit(
-      CHAT_EVENT.CONNECTED_USERS_LIST,
-      statusManager.getUsersStatus(),
-    );
+      // History Event
+      socket.emit(CHAT_EVENT.HISTORY, await publicChat.getPopulatedDoc());
 
-    // Message Event
-    socket.on(
-      CHAT_EVENT.MESSAGE,
-      socketTryCatch(socket, async (text: string) => {
+      // Users List Event
+      socket.emit(CHAT_EVENT.USERS_LIST, await User.find());
+
+      // Broadcast Status Event
+      socket.broadcast.emit(CHAT_EVENT.USER_STATUS_UPDATE, {
+        userId,
+        status: await statusManager.getStatus(),
+      });
+
+      // Message Event
+      socket.on(CHAT_EVENT.MESSAGE, async (text: string) => {
         if (typeof text !== 'string') {
           throw 'text must be a string';
         }
@@ -43,30 +47,44 @@ export default (io: Server) => {
         publicChat.saveMessage(message.id);
 
         io.emit(CHAT_EVENT.MESSAGE, await message.populate('sender'));
-      }),
-    );
+      });
 
-    // Typing Event
-    socket.on(
-      CHAT_EVENT.PUBLIC_TYPING,
-      socketTryCatch(
-        socket,
+      // Typing Event
+      socket.on(
+        CHAT_EVENT.PUBLIC_TYPING,
         async (data: { username: string; isTyping: boolean }) => {
           socket.broadcast.emit(CHAT_EVENT.PUBLIC_TYPING, data);
         },
-      ),
-    );
+      );
 
-    socket.on(
-      'disconnect',
-      socketTryCatch(socket, async () => {
-        statusManager.removeStatus(user._id);
+      // User Status Update Event
+      socket.on(CHAT_EVENT.USER_STATUS_UPDATE, async (status: string) => {
+        function isStatus(status: string): status is Status {
+          const allowedStatuses = ['online', 'away'];
 
-        io.emit(
-          CHAT_EVENT.CONNECTED_USERS_LIST,
-          statusManager.getUsersStatus(),
-        );
-      }),
-    );
-  });
+          return allowedStatuses.includes(status);
+        }
+
+        if (!isStatus(status)) {
+          return;
+        }
+
+        await statusManager.setStatus(status);
+
+        socket.broadcast.emit(CHAT_EVENT.USER_STATUS_UPDATE, {
+          userId,
+          status: await statusManager.getStatus(),
+        });
+      });
+
+      socket.on('disconnect', async () => {
+        await statusManager.setStatus('offline');
+
+        socket.broadcast.emit(CHAT_EVENT.USER_STATUS_UPDATE, {
+          userId,
+          status: await statusManager.getStatus(),
+        });
+      });
+    }),
+  );
 };
