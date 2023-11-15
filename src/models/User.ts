@@ -7,6 +7,8 @@ export interface UserSchema extends Document {
   username: string;
   password: string;
   status: Status;
+  createdAt: Date | null;
+  lastLoginAt: Date | null;
 }
 
 export interface UserMethods {
@@ -31,6 +33,22 @@ const userSchema = new Schema<UserSchema, Model<UserSchema>, UserMethods>({
     type: String,
     default: 'offline',
   },
+  createdAt: {
+    type: Date,
+    default: null,
+  },
+  lastLoginAt: {
+    type: Date,
+    default: null,
+  },
+});
+
+userSchema.pre('save', function createdAtUpdate(next) {
+  if (!this.createdAt) {
+    this.createdAt = new Date();
+  }
+
+  next();
 });
 
 userSchema.pre('save', function encryptPassword(next) {
