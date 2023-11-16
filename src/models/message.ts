@@ -2,8 +2,10 @@ import mongoose, { ObjectId, Schema } from 'mongoose';
 
 export interface MessageSchema {
   text: string;
-  timestamp?: string;
+  timestamp: Date;
   sender: ObjectId;
+  receiver?: ObjectId;
+  groupChat?: ObjectId;
 }
 
 const messageSchema = new Schema<MessageSchema>({
@@ -11,11 +13,22 @@ const messageSchema = new Schema<MessageSchema>({
     type: String,
     required: true,
   },
-  timestamp: Date,
+  timestamp: {
+    type: Date,
+    required: true,
+  },
   sender: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
+  },
+  receiver: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  groupChat: {
+    type: Schema.Types.ObjectId,
+    ref: 'GroupChat',
   },
 });
 

@@ -4,4 +4,5 @@ export enum CHAT_EVENT {
   PUBLIC_TYPING = 'chat:public-users-typing',
   USERS_LIST = 'chat:users-list',
   USER_STATUS_UPDATE = 'chat:user-status-update',
+  PRIVATE_MESSAGE = 'chat:private-message',
 }
