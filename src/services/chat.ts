@@ -13,7 +13,7 @@ export default (io: Server) => {
     'connection',
     socketTryCatch(async socket => {
       const user = socket.request.user;
-      const userId = user._id;
+      const userId = user.id;
       const statusManager = new StatusManager(userId);
 
       await statusManager.setStatus('online');

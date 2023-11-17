@@ -1,10 +1,15 @@
+import { MessageSchema } from '@models/Message';
 import { Document } from 'mongoose';
 
-export const populateMessage = async (messages: Document) => {
+export const populateMessage = async (
+  messages: Document<unknown, {}, MessageSchema>,
+) => {
   return await (
-    await messages.populate('sender')
-  ).populate({
-    path: 'groupChat',
-    populate: { path: 'participants' },
-  });
+    await (
+      await messages.populate('sender')
+    ).populate({
+      path: 'groupChat',
+      populate: { path: 'participants' },
+    })
+  ).populate('receiver');
 };
